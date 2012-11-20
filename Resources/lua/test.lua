@@ -57,7 +57,6 @@ local function main()
         local bandWith = (winSize.width - xPadding) / 4
         local xPos = math.random(4) * bandWith + xPadding / 2 - target:getContentSize().width / 2
                 
-        --target:setPosition(winSize.width + target:getContentSize().width / 2, actualY)
         target:setPosition(xPos, winSize.height + target:getContentSize().height / 2)
         stageLayer:addChild(target)
                 
@@ -66,7 +65,6 @@ local function main()
         local rangeDuration = maxDuration - minDuration
         local actualDuration = math.random(rangeDuration) + minDuration
                 
-        --local actionMove = CCMoveTo:create(actualDuration, ccp(-target:getContentSize().width/2, actualY))
         local actionMove = CCMoveTo:create(actualDuration, ccp(xPos, -target:getContentSize().height / 2))
         local actionMoveDone = CCCallFuncN:create(spriteMoveFinished)
         local actions = CCArray:createWithCapacity(2)
@@ -75,8 +73,6 @@ local function main()
         actions:addObject(actionMoveDone)
         target:runAction(CCSequence:create(actions))
                 
-        --cclog(targetsArray)
-        --targetsArray:addObject(target)
         local id = "obj"..numTargets
         numTargets = numTargets + 1
         target.id = id
