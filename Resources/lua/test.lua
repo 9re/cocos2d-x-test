@@ -21,13 +21,6 @@ local function main()
       print(string.format(...))
    end
 
---[[ module test   
-   require "/sdcard/test_module"
-
-   cclog("result is " .. myadd(3, 5))
-   CCLuaLog("__log__")
---]]
-   
    local function menuCallbackClosePopup()
       cclog("menu clicked!");
       CCDirector:sharedDirector():endToLua()

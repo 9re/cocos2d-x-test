@@ -3,6 +3,7 @@ proj.android/ant.properties
 proj.android/gen
 proj.android/obj
 proj.android/bin
+proj.android/libs/armeabi
 proj.android/assets
 proj.android/build.xml
 
