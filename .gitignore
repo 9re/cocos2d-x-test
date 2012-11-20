@@ -1,0 +1,8 @@
+proj.android/local.properties
+proj.android/ant.properties
+proj.android/gen
+proj.android/obj
+proj.android/bin
+proj.android/assets
+proj.android/build.xml
+
