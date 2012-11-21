@@ -12,6 +12,8 @@ bool BackKeyLayer::init()
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
   setKeypadEnabled(true);
 #endif
+
+  return true;
 }
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
