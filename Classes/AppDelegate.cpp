@@ -13,58 +13,56 @@ USING_NS_CC;
 
 AppDelegate::AppDelegate()
 {
-
 }
 
 AppDelegate::~AppDelegate()
 {
 }
 
-
 static int tolua_BackKeyLayer_create(lua_State* tolua_S)
 {
 #ifndef TOLUA_RELEASE
- tolua_Error tolua_err;
- if (
-     !tolua_isusertable(tolua_S,1,"BackKeyLayer",0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,2,&tolua_err)
- )
-  goto tolua_lerror;
- else
+    tolua_Error tolua_err;
+    if (
+        !tolua_isusertable(tolua_S,1,"BackKeyLayer",0,&tolua_err) ||
+        !tolua_isnoobj(tolua_S,2,&tolua_err)
+	)
+      goto tolua_lerror;
+    else
 #endif
- {
-  {
-    CCLayer* tolua_ret = (CCLayer*)  BackKeyLayer::create();
-    int nID = (tolua_ret) ? (int)tolua_ret->m_uID : -1;
-    int* pLuaID = (tolua_ret) ? &tolua_ret->m_nLuaID : NULL;
-    toluafix_pushusertype_ccobject(tolua_S, nID, pLuaID, (void*)tolua_ret,"BackKeyLayer");
-  }
- }
- return 1;
+    {
+        CCLayer* tolua_ret = (CCLayer*)  BackKeyLayer::create();
+        int nID = (tolua_ret) ? (int)tolua_ret->m_uID : -1;
+        int* pLuaID = (tolua_ret) ? &tolua_ret->m_nLuaID : NULL;
+        toluafix_pushusertype_ccobject(tolua_S, nID, pLuaID, (void*)tolua_ret,"BackKeyLayer");
+    }
+
+    return 1;
 #ifndef TOLUA_RELEASE
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'create'.",&tolua_err);
- return 0;
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'create'.",&tolua_err);
+    return 0;
 #endif
 }
 
-
-static void toluaRegisterTypes(lua_State *tolua_S) {
-  tolua_usertype(tolua_S, "BackKeyLayer");
+static void toluaRegisterTypes(lua_State *tolua_S)
+{
+    tolua_usertype(tolua_S, "BackKeyLayer");
 }
 
-static void registerCustomCppClasses(lua_State *tolua_S) {
-   tolua_open(tolua_S);
-   toluaRegisterTypes(tolua_S);
-   tolua_module(tolua_S,NULL,0);
-   tolua_beginmodule(tolua_S,NULL);
-   tolua_cclass(tolua_S, "BackKeyLayer", "BackKeyLayer", "CCLayer", NULL);
-   /* BackKeyLayer */
-   tolua_beginmodule(tolua_S, "BackKeyLayer");
-   tolua_function(tolua_S,"create", tolua_BackKeyLayer_create);
-   tolua_endmodule(tolua_S);
-   /* BackKeyLayer */
-   tolua_endmodule(tolua_S);
+static void registerCustomCppClasses(lua_State *tolua_S)
+{
+    tolua_open(tolua_S);
+    toluaRegisterTypes(tolua_S);
+    tolua_module(tolua_S,NULL,0);
+    tolua_beginmodule(tolua_S,NULL);
+    tolua_cclass(tolua_S, "BackKeyLayer", "BackKeyLayer", "CCLayer", NULL);
+    /* BackKeyLayer */
+    tolua_beginmodule(tolua_S, "BackKeyLayer");
+    tolua_function(tolua_S,"create", tolua_BackKeyLayer_create);
+    tolua_endmodule(tolua_S);
+    /* BackKeyLayer */
+    tolua_endmodule(tolua_S);
 }
 
 bool AppDelegate::applicationDidFinishLaunching()
