@@ -99,7 +99,7 @@ local function main()
     end
   
     local function hitEffect(t)
-        local actionEffect = CCTintTo:create(0.5, 255, 255, 255)
+        local actionEffect = CCTintTo:create(0.4, 255, 255, 255)
         local actionMoveDone = CCCallFuncN:create(spriteMoveFinished)
         local actions = CCArray:createWithCapacity(2)
                 
