@@ -1,7 +1,6 @@
 #include "AppDelegate.h"
 #include "CCLuaEngine.h"
 #include "BackKeyLayer.h"
-
 #include "tolua++.h"
 #include "tolua_fix.h"
 #include <platform/CCFileUtils.h>
@@ -101,7 +100,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     pEngine->addSearchPath(path.substr(0, path.find_last_of("/")).c_str());
     pEngine->executeScriptFile(path.c_str());
 #endif
-
+    
     return true;
 }
 
