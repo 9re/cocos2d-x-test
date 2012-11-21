@@ -13,6 +13,9 @@ USING_NS_CC;
 
 AppDelegate::AppDelegate()
 {
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    memset(m_scriptRoot, 0, sizeof(m_scriptRoot));
+#endif
 }
 
 AppDelegate::~AppDelegate()
@@ -87,7 +90,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     CCScriptEngineManager::sharedManager()->setScriptEngine(pEngine);
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    const char *pLuaFile = "/sdcard/test.lua";
+    const char *pLuaFile = strcat(m_scriptRoot, "/test.lua");
     CCString *pstrFileContent = CCString::createWithContentsOfFile(pLuaFile);
     if (pstrFileContent)
     {
@@ -119,3 +122,11 @@ void AppDelegate::applicationWillEnterForeground()
     // if you use SimpleAudioEngine, it must resume here
     // SimpleAudioEngine::sharedEngine()->resumeBackgroundMusic();
 }
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+void AppDelegate::setScriptRoot(const char* scriptRoot)
+{
+    strcpy(m_scriptRoot, scriptRoot);
+}
+#endif
+

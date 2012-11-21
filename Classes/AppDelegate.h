@@ -11,6 +11,11 @@ The reason for implement as private inheritance is to hide some interface call b
 */
 class  AppDelegate : private cocos2d::CCApplication
 {
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+private:
+    char m_scriptRoot[256];
+#endif
+
 public:
     AppDelegate();
     virtual ~AppDelegate();
@@ -33,6 +38,11 @@ public:
     @param  the pointer of the application
     */
     virtual void applicationWillEnterForeground();
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    void setScriptRoot(const char* scriptRoot);
+#endif
+
 };
 
 #endif // _APP_DELEGATE_H_
