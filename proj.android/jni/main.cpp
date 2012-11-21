@@ -25,14 +25,7 @@ typedef struct {
     jmethodID get_path;
 } java_io_file_class;
 
-jint JNI_OnLoad(JavaVM *vm, void *reserved)
-{
-    JniHelper::setJavaVM(vm);
-
-    return JNI_VERSION_1_4;
-}
-
-void Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeInit(JNIEnv*  env, jobject thiz, jint w, jint h)
+static void get_sdcard_path(JNIEnv* env, char* dst)
 {
     android_os_environment_class environment_class;
     java_io_file_class f_class;
@@ -49,7 +42,6 @@ void Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeInit(JNIEnv*  env, jobject thi
     f_class.get_path = env->GetMethodID(f_class.klass,
                                         "getPath",
                                         "()Ljava/lang/String;");
-
     
     f = env->CallStaticObjectMethod(environment_class.klass,
                                     environment_class.get_external_storage_directory);
@@ -57,15 +49,33 @@ void Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeInit(JNIEnv*  env, jobject thi
     j_path = (jstring) env->CallObjectMethod(f, f_class.get_path);
     if(j_path != NULL){
         n_path = env->GetStringUTFChars(j_path, NULL);
+        strcpy(dst, n_path);
     }
 
+    env->ReleaseStringUTFChars(j_path, n_path);
+    env->DeleteLocalRef(j_path);
+    env->DeleteLocalRef(f_class.klass);
+    env->DeleteLocalRef(environment_class.klass);
+}
+
+jint JNI_OnLoad(JavaVM *vm, void *reserved)
+{
+    JniHelper::setJavaVM(vm);
+
+    return JNI_VERSION_1_4;
+}
+
+void Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeInit(JNIEnv*  env, jobject thiz, jint w, jint h)
+{
     if (!CCDirector::sharedDirector()->getOpenGLView())
     {
         CCEGLView *view = CCEGLView::sharedOpenGLView();
         view->setFrameSize(w, h);
 
         AppDelegate *pAppDelegate = new AppDelegate();
-        pAppDelegate->setScriptRoot(n_path);
+        char path[256];
+        get_sdcard_path(env, path);
+        pAppDelegate->setScriptRoot(path);
         CCApplication::sharedApplication()->run();
     }
     else
@@ -78,12 +88,6 @@ void Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeInit(JNIEnv*  env, jobject thi
         CCNotificationCenter::sharedNotificationCenter()->postNotification(EVNET_COME_TO_FOREGROUND, NULL);
         CCDirector::sharedDirector()->setGLDefaultValues(); 
     }
-
-
-    env->ReleaseStringUTFChars(j_path, n_path);
-    env->DeleteLocalRef(j_path);
-    env->DeleteLocalRef(f_class.klass);
-    env->DeleteLocalRef(environment_class.klass);
 }
 
 }    /* extern "C" */
