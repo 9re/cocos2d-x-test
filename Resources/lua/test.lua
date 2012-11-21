@@ -99,16 +99,19 @@ local function main()
     end
   
     local function hitEffect(t)
-        local actionEffect = CCTintTo:create(0.4, 255, 255, 255)
+        local actionEffect = CCFadeOut:create(0.4)
         local actionMoveDone = CCCallFuncN:create(spriteMoveFinished)
         local actions = CCArray:createWithCapacity(2)
                 
-        local explosion = CCParticleSmoke:create()
+        local explosion = CCParticleFire:create()
         explosion:setTexture(CCTextureCache:sharedTextureCache():addImage("images/fire.png"))
+	local explosionParticle = tolua.cast(explosion, "CCParticleSystem")
+	explosionParticle:setDuration(0.7)
+	explosionParticle:setAutoRemoveOnFinish(true)
         local explosionNode = tolua.cast(explosion, "CCNode")
         explosionNode:setPosition(t:getPosition())
         stageLayer:addChild(explosionNode)
-                
+	
         actions:addObject(actionEffect)
         actions:addObject(actionMoveDone)
         t:runAction(CCSequence:create(actions))
